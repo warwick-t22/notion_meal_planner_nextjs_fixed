@@ -13,8 +13,8 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
       {/* Introduction Section */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-neutral-800 mb-1">Plan your heart-healthy meals for the next two weeks</h2>
-          <p className="text-neutral-600">Customize your meal plan based on your preferences and dietary needs</p>
+          <h2 className="text-2xl font-bold text-white mb-1">Plan your heart-healthy meals for the next two weeks</h2>
+          <p className="text-neutral-200">Customize your meal plan based on your preferences and dietary needs</p>
         </div>
         <button className="bg-mintGreen-400 text-white font-medium py-2 px-4 rounded-notion hover:bg-mintGreen-500 transition-colors">
           Generate
@@ -80,7 +80,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
       <div className="mt-6">
         {/* Week 1 */}
         <div className="mb-8">
-          <h3 className="text-base font-semibold p-2 bg-neutral-100 rounded-notion mb-2">Week 1</h3>
+          <h3 className="text-xl font-medium mb-4 text-white">Week 1</h3>
           <div className="grid grid-cols-[2rem_repeat(7,1fr)] gap-2">
             {/* Day Headers */}
             <div></div> {/* Empty cell for alignment */}
@@ -93,7 +93,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
             <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Sunday</div>
 
             {/* Breakfast Row */}
-            <div className="meal-type-label">Breakfast</div>
+            <div className="meal-type-label text-white">Breakfast</div>
             <div className="min-h-24 p-1">
               <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
                 <div className="text-2xl my-2 text-center">🥣</div>
@@ -138,7 +138,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
             </div>
 
             {/* Lunch Row */}
-            <div className="meal-type-label">Lunch</div>
+            <div className="meal-type-label text-white">Lunch</div>
             <div className="min-h-24 p-1">
               <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
                 <div className="text-2xl my-2 text-center">🥗</div>
@@ -183,7 +183,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
             </div>
 
             {/* Dinner Row */}
-            <div className="meal-type-label">Dinner</div>
+            <div className="meal-type-label text-white">Dinner</div>
             <div className="min-h-24 p-1">
               <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
                 <div className="text-2xl my-2 text-center">🐟</div>
@@ -231,7 +231,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
 
         {/* Week 2 */}
         <div className="mb-8">
-          <h3 className="text-base font-semibold p-2 bg-neutral-100 rounded-notion mb-2">Week 2</h3>
+          <h3 className="text-xl font-medium mb-4 text-white">Week 2</h3>
           <div className="grid grid-cols-[2rem_repeat(7,1fr)] gap-2">
             {/* Day Headers */}
             <div></div> {/* Empty cell for alignment */}
@@ -244,7 +244,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
             <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Sunday</div>
 
             {/* Breakfast Row */}
-            <div className="meal-type-label">Breakfast</div>
+            <div className="meal-type-label text-white">Breakfast</div>
             {[...Array(7)].map((_, i) => (
               <div key={`breakfast-${i}`} className="min-h-24 p-1">
                 <div className="empty-slot h-full">
@@ -254,7 +254,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
             ))}
 
             {/* Lunch Row */}
-            <div className="meal-type-label">Lunch</div>
+            <div className="meal-type-label text-white">Lunch</div>
             {[...Array(7)].map((_, i) => (
               <div key={`lunch-${i}`} className="min-h-24 p-1">
                 <div className="empty-slot h-full">
@@ -264,7 +264,7 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
             ))}
 
             {/* Dinner Row */}
-            <div className="meal-type-label">Dinner</div>
+            <div className="meal-type-label text-white">Dinner</div>
             {[...Array(7)].map((_, i) => (
               <div key={`dinner-${i}`} className="min-h-24 p-1">
                 <div className="empty-slot h-full">
@@ -285,80 +285,43 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
               <button className="text-2xl text-neutral-500 hover:text-neutral-800" onClick={() => setShowRecipeModal(false)}>×</button>
             </div>
             <div className="p-6">
-              <div className="h-48 bg-neutral-100 rounded-notion flex items-center justify-center text-5xl mb-4">🐟</div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="text-xs py-1 px-2 bg-mintGreen-50 text-mintGreen-800 rounded-notion">Dinner</span>
-                <span className="text-xs py-1 px-2 bg-neutral-100 text-neutral-800 rounded-notion">35 min</span>
-                <span className="text-xs py-1 px-2 bg-royalBlue-50 text-royalBlue-800 rounded-notion">Gluten-Free</span>
-                <span className="text-xs py-1 px-2 bg-royalBlue-50 text-royalBlue-800 rounded-notion">Dairy-Free</span>
+              <div className="h-48 bg-neutral-100 rounded-notion flex items-center justify-center text-5xl mb-4">
+                🐟
               </div>
-              <p className="text-neutral-600 mb-6">Omega-3 rich dinner that supports cardiovascular health</p>
-              
+              <p className="text-neutral-600 mb-4">A heart-healthy dinner with omega-3 rich salmon and a colorful mix of roasted vegetables.</p>
+              <div className="flex gap-4 mb-6">
+                <div className="bg-mintGreen-50 text-mintGreen-800 px-3 py-1 rounded-full text-sm">Prep: 15 min</div>
+                <div className="bg-royalBlue-50 text-royalBlue-800 px-3 py-1 rounded-full text-sm">Cook: 25 min</div>
+                <div className="bg-neutral-100 text-neutral-800 px-3 py-1 rounded-full text-sm">Serves: 2</div>
+              </div>
               <div className="mb-6">
-                <h3 className="text-base font-bold mb-2">Ingredients</h3>
-                <ul className="list-disc pl-6 space-y-1">
-                  <li>Salmon fillet (4 oz per serving)</li>
-                  <li>Broccoli florets</li>
-                  <li>Bell peppers, sliced</li>
-                  <li>Extra virgin olive oil</li>
-                  <li>Lemon, sliced</li>
-                  <li>Garlic cloves, minced</li>
-                  <li>Fresh herbs (dill, parsley)</li>
+                <h3 className="font-semibold mb-2">Ingredients</h3>
+                <ul className="list-disc pl-5 space-y-1 text-neutral-700">
+                  <li>2 salmon fillets (6 oz each)</li>
+                  <li>1 zucchini, sliced</li>
+                  <li>1 bell pepper, chopped</li>
+                  <li>1 cup cherry tomatoes</li>
+                  <li>1 red onion, sliced</li>
+                  <li>2 tbsp olive oil</li>
+                  <li>2 cloves garlic, minced</li>
+                  <li>1 lemon</li>
+                  <li>Fresh dill</li>
                   <li>Salt and pepper to taste</li>
                 </ul>
               </div>
-              
-              <div className="mb-6">
-                <h3 className="text-base font-bold mb-2">Instructions</h3>
-                <ol className="list-decimal pl-6 space-y-1">
+              <div>
+                <h3 className="font-semibold mb-2">Instructions</h3>
+                <ol className="list-decimal pl-5 space-y-2 text-neutral-700">
                   <li>Preheat oven to 400°F (200°C).</li>
-                  <li>Toss vegetables with olive oil, garlic, salt, and pepper.</li>
+                  <li>Toss vegetables with 1 tbsp olive oil, garlic, salt, and pepper.</li>
                   <li>Spread vegetables on a baking sheet and roast for 10 minutes.</li>
-                  <li>Season salmon with salt, pepper, and herbs.</li>
-                  <li>Place salmon on top of vegetables, add lemon slices.</li>
-                  <li>Bake for 12-15 minutes until salmon is cooked through.</li>
-                  <li>Garnish with fresh herbs before serving.</li>
+                  <li>Place salmon fillets on top of vegetables, drizzle with remaining olive oil.</li>
+                  <li>Squeeze half the lemon over salmon and vegetables.</li>
+                  <li>Sprinkle with fresh dill, salt, and pepper.</li>
+                  <li>Return to oven and bake for 12-15 minutes until salmon is cooked through.</li>
+                  <li>Serve with lemon wedges.</li>
                 </ol>
               </div>
-              
-              <div className="mb-6">
-                <h3 className="text-base font-bold mb-2">Nutrition Information</h3>
-                <div className="grid grid-cols-2 gap-4 bg-neutral-50 p-3 rounded-notion">
-                  <div>
-                    <p className="text-xs text-neutral-500">Calories</p>
-                    <p className="font-medium">350 kcal</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500">Protein</p>
-                    <p className="font-medium">25g</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500">Carbs</p>
-                    <p className="font-medium">20g</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500">Fat</p>
-                    <p className="font-medium">18g</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500">Fiber</p>
-                    <p className="font-medium">6g</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-neutral-500">Sodium</p>
-                    <p className="font-medium">320mg</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mb-6">
-                <h3 className="text-base font-bold mb-2">Heart-Healthy Benefits</h3>
-                <p className="text-neutral-600">This recipe is rich in omega-3 fatty acids from salmon, which may help reduce inflammation and lower risk of heart disease. The vegetables provide fiber, vitamins, and antioxidants that support cardiovascular health. Olive oil contains monounsaturated fats that can help improve cholesterol levels.</p>
-              </div>
-            </div>
-            <div className="border-t border-neutral-200 p-4 flex justify-end gap-2">
-              <button className="bg-royalBlue-400 text-white font-medium py-2 px-4 rounded-notion hover:bg-royalBlue-500 transition-colors">Print Recipe</button>
-              <button className="bg-mintGreen-400 text-white font-medium py-2 px-4 rounded-notion hover:bg-mintGreen-500 transition-colors">Add to Meal Plan</button>
             </div>
           </div>
         </div>
