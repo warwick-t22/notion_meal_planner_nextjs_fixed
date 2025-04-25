@@ -122,3 +122,60 @@ body {
 .writing-vertical-lr {
   writing-mode: vertical-lr;
 }
+
+/* Add these rules to your globals.css file */
+
+/* Improve general text readability */
+body {
+  color: #f8f9fa; /* Light color for text on dark backgrounds */
+}
+
+/* Make headings more visible */
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
+
+/* Improve paragraph text contrast */
+p {
+  color: #e9ecef;
+}
+
+/* Ensure sidebar text is readable */
+.sidebar-text {
+  color: #f8f9fa;
+}
+
+/* Make sure form labels are visible */
+label {
+  color: #f8f9fa;
+}
+
+/* Ensure calendar day headers are readable */
+.day-header {
+  color: white !important;
+}
+
+/* Fix any dark text on dark backgrounds */
+.text-neutral-800 {
+  color: #f8f9fa !important;
+}
+
+.text-neutral-700 {
+  color: #e9ecef !important;
+}
+
+.text-neutral-600 {
+  color: #dee2e6 !important;
+}
+
+/* Only use dark text on light backgrounds */
+.bg-white .text-neutral-800,
+.bg-mintGreen-50 .text-neutral-800,
+.bg-royalBlue-50 .text-neutral-800 {
+  color: #212529 !important;
+}
+
+/* Fix specific components */
+.meal-type-label {
+  color: white;
+}
