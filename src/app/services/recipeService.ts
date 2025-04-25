@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 // Types for our recipe data
 export interface Recipe {
