@@ -47,12 +47,31 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
   async function loadRecipes() {
     setLoading(true);
     try {
-      // Option 1: Get all recipes and filter by meal type
+      console.error("Starting to fetch recipes...");
       const allRecipes = await getAllRecipes();
-      // ...rest of your code
+      console.error("Fetched recipes:", allRecipes);
+    
+      // Check if we got any recipes
+      if (allRecipes.length === 0) {
+        console.error("No recipes returned from database");
+      }
+    
+      // For now, let's just split the recipes randomly for demonstration
+      const shuffled = [...allRecipes].sort(() => 0.5 - Math.random());
+      console.error("Shuffled recipes:", shuffled);
+    
+      setBreakfastRecipes(shuffled.slice(0, 7));
+      setLunchRecipes(shuffled.slice(7, 14));
+      setDinnerRecipes(shuffled.slice(14, 21));
+      
+      console.error("Recipe states set successfully");
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading recipes:", error);
+      setLoading(false);
     }
-    // ...
   }
+
   
   loadRecipes();
 }, []);
