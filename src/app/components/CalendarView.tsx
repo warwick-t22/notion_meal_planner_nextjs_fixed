@@ -1,12 +1,82 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAllRecipes, getRecipesByMealType, Recipe } from '../services/recipeService';
 
 interface CalendarViewProps {}
+
+// Helper function to get food emoji based on recipe name
+const getFoodEmoji = (recipeName: string): string => {
+  const lowerName = recipeName.toLowerCase();
+  
+  if (lowerName.includes('salmon') || lowerName.includes('fish')) return '🐟';
+  if (lowerName.includes('chicken')) return '🍗';
+  if (lowerName.includes('beef') || lowerName.includes('steak')) return '🥩';
+  if (lowerName.includes('pasta') || lowerName.includes('spaghetti')) return '🍝';
+  if (lowerName.includes('salad')) return '🥗';
+  if (lowerName.includes('soup')) return '🍲';
+  if (lowerName.includes('sandwich')) return '🥪';
+  if (lowerName.includes('rice') || lowerName.includes('bowl')) return '🍚';
+  if (lowerName.includes('curry')) return '🍛';
+  if (lowerName.includes('breakfast') || lowerName.includes('oats')) return '🥣';
+  if (lowerName.includes('pancake')) return '🥞';
+  if (lowerName.includes('egg')) return '🍳';
+  if (lowerName.includes('fruit') || lowerName.includes('berry')) return '🍓';
+  if (lowerName.includes('avocado')) return '🥑';
+  if (lowerName.includes('banana')) return '🍌';
+  if (lowerName.includes('potato')) return '🍠';
+  if (lowerName.includes('stir fry') || lowerName.includes('vegetable')) return '🥘';
+  
+  // Default emoji if no match
+  return '🍽️';
+};
 
 const CalendarView: React.FC<CalendarViewProps> = () => {
   const [showReviewQueue, setShowReviewQueue] = useState(false);
   const [showRecipeModal, setShowRecipeModal] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  
+  // State for recipes from database
+  const [breakfastRecipes, setBreakfastRecipes] = useState<Recipe[]>([]);
+  const [lunchRecipes, setLunchRecipes] = useState<Recipe[]>([]);
+  const [dinnerRecipes, setDinnerRecipes] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch recipes when component mounts
+  useEffect(() => {
+    async function loadRecipes() {
+      setLoading(true);
+      try {
+        // Option 1: Get all recipes and filter by meal type
+        const allRecipes = await getAllRecipes();
+        
+        // Option 2: Get recipes by meal type (if you added meal_type column)
+        // const breakfastData = await getRecipesByMealType('breakfast');
+        // const lunchData = await getRecipesByMealType('lunch');
+        // const dinnerData = await getRecipesByMealType('dinner');
+        
+        // For now, let's just split the recipes randomly for demonstration
+        const shuffled = [...allRecipes].sort(() => 0.5 - Math.random());
+        
+        setBreakfastRecipes(shuffled.slice(0, 7));
+        setLunchRecipes(shuffled.slice(7, 14));
+        setDinnerRecipes(shuffled.slice(14, 21));
+        
+        setLoading(false);
+      } catch (error) {
+        console.error('Error loading recipes:', error);
+        setLoading(false);
+      }
+    }
+    
+    loadRecipes();
+  }, []);
+
+  // Function to open recipe modal with selected recipe
+  const openRecipeModal = (recipe: Recipe) => {
+    setSelectedRecipe(recipe);
+    setShowRecipeModal(true);
+  };
 
   return (
     <div>
@@ -20,6 +90,13 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
           Generate
         </button>
       </div>
+
+      {/* Loading State */}
+      {loading && (
+        <div className="flex justify-center items-center py-12">
+          <div className="text-white">Loading recipes from database...</div>
+        </div>
+      )}
 
       {/* Admin Review Queue Toggle */}
       <div className="flex justify-end mb-4">
@@ -77,250 +154,160 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
       )}
 
       {/* 2-Week Calendar View */}
-      <div className="mt-6">
-        {/* Week 1 */}
-        <div className="mb-8">
-          <h3 className="text-xl font-medium mb-4 text-white">Week 1</h3>
-          <div className="grid grid-cols-[2rem_repeat(7,1fr)] gap-2">
-            {/* Day Headers */}
-            <div></div> {/* Empty cell for alignment */}
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Monday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Tuesday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Wednesday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Thursday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Friday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Saturday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Sunday</div>
+      {!loading && (
+        <div className="mt-6">
+          {/* Week 1 */}
+          <div className="mb-8">
+            <h3 className="text-xl font-medium mb-4 text-white">Week 1</h3>
+            <div className="grid grid-cols-[2rem_repeat(7,1fr)] gap-2">
+              {/* Day Headers */}
+              <div></div> {/* Empty cell for alignment */}
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Monday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Tuesday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Wednesday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Thursday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Friday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Saturday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Sunday</div>
 
-            {/* Breakfast Row */}
-            <div className="meal-type-label text-white">Breakfast</div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥣</div>
-                <h4 className="text-sm font-semibold">Overnight Oats</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍳</div>
-                <h4 className="text-sm font-semibold">Veggie Omelette</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥞</div>
-                <h4 className="text-sm font-semibold">Whole Grain Pancakes</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍓</div>
-                <h4 className="text-sm font-semibold">Berry Smoothie Bowl</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥑</div>
-                <h4 className="text-sm font-semibold">Avocado Toast</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥗</div>
-                <h4 className="text-sm font-semibold">Fruit & Yogurt Parfait</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍌</div>
-                <h4 className="text-sm font-semibold">Banana Oat Muffins</h4>
-              </div>
-            </div>
+              {/* Breakfast Row */}
+              <div className="meal-type-label text-white">Breakfast</div>
+              {breakfastRecipes.slice(0, 7).map((recipe, index) => (
+                <div key={`breakfast-${index}`} className="min-h-24 p-1">
+                  <div 
+                    className={`recipe-card ${index % 2 === 0 ? 'primary' : 'secondary'} h-full`} 
+                    onClick={() => openRecipeModal(recipe)}
+                  >
+                    <div className="text-2xl my-2 text-center">{getFoodEmoji(recipe.name)}</div>
+                    <h4 className="text-sm font-semibold">{recipe.name}</h4>
+                  </div>
+                </div>
+              ))}
 
-            {/* Lunch Row */}
-            <div className="meal-type-label text-white">Lunch</div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥗</div>
-                <h4 className="text-sm font-semibold">Mediterranean Salad</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍲</div>
-                <h4 className="text-sm font-semibold">Lentil Soup</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥙</div>
-                <h4 className="text-sm font-semibold">Chickpea Wrap</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍚</div>
-                <h4 className="text-sm font-semibold">Quinoa Bowl</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥪</div>
-                <h4 className="text-sm font-semibold">Tuna Sandwich</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥘</div>
-                <h4 className="text-sm font-semibold">Vegetable Stir Fry</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍝</div>
-                <h4 className="text-sm font-semibold">Whole Grain Pasta</h4>
-              </div>
-            </div>
+              {/* Lunch Row */}
+              <div className="meal-type-label text-white">Lunch</div>
+              {lunchRecipes.slice(0, 7).map((recipe, index) => (
+                <div key={`lunch-${index}`} className="min-h-24 p-1">
+                  <div 
+                    className={`recipe-card ${index % 2 === 0 ? 'secondary' : 'primary'} h-full`} 
+                    onClick={() => openRecipeModal(recipe)}
+                  >
+                    <div className="text-2xl my-2 text-center">{getFoodEmoji(recipe.name)}</div>
+                    <h4 className="text-sm font-semibold">{recipe.name}</h4>
+                  </div>
+                </div>
+              ))}
 
-            {/* Dinner Row */}
-            <div className="meal-type-label text-white">Dinner</div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🐟</div>
-                <h4 className="text-sm font-semibold">Baked Salmon</h4>
-              </div>
+              {/* Dinner Row */}
+              <div className="meal-type-label text-white">Dinner</div>
+              {dinnerRecipes.slice(0, 7).map((recipe, index) => (
+                <div key={`dinner-${index}`} className="min-h-24 p-1">
+                  <div 
+                    className={`recipe-card ${index % 2 === 0 ? 'primary' : 'secondary'} h-full`} 
+                    onClick={() => openRecipeModal(recipe)}
+                  >
+                    <div className="text-2xl my-2 text-center">{getFoodEmoji(recipe.name)}</div>
+                    <h4 className="text-sm font-semibold">{recipe.name}</h4>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍗</div>
-                <h4 className="text-sm font-semibold">Grilled Chicken</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥘</div>
-                <h4 className="text-sm font-semibold">Bean Chili</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍠</div>
-                <h4 className="text-sm font-semibold">Stuffed Sweet Potatoes</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍛</div>
-                <h4 className="text-sm font-semibold">Vegetable Curry</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card secondary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🥣</div>
-                <h4 className="text-sm font-semibold">Mushroom Risotto</h4>
-              </div>
-            </div>
-            <div className="min-h-24 p-1">
-              <div className="recipe-card primary h-full" onClick={() => setShowRecipeModal(true)}>
-                <div className="text-2xl my-2 text-center">🍖</div>
-                <h4 className="text-sm font-semibold">Greek Lamb</h4>
-              </div>
+          </div>
+
+          {/* Week 2 */}
+          <div className="mb-8">
+            <h3 className="text-xl font-medium mb-4 text-white">Week 2</h3>
+            <div className="grid grid-cols-[2rem_repeat(7,1fr)] gap-2">
+              {/* Day Headers */}
+              <div></div> {/* Empty cell for alignment */}
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Monday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Tuesday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Wednesday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Thursday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Friday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Saturday</div>
+              <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Sunday</div>
+
+              {/* Breakfast Row */}
+              <div className="meal-type-label text-white">Breakfast</div>
+              {[...Array(7)].map((_, i) => (
+                <div key={`breakfast-week2-${i}`} className="min-h-24 p-1">
+                  <div className="empty-slot h-full">
+                    <span>+</span>
+                  </div>
+                </div>
+              ))}
+
+              {/* Lunch Row */}
+              <div className="meal-type-label text-white">Lunch</div>
+              {[...Array(7)].map((_, i) => (
+                <div key={`lunch-week2-${i}`} className="min-h-24 p-1">
+                  <div className="empty-slot h-full">
+                    <span>+</span>
+                  </div>
+                </div>
+              ))}
+
+              {/* Dinner Row */}
+              <div className="meal-type-label text-white">Dinner</div>
+              {[...Array(7)].map((_, i) => (
+                <div key={`dinner-week2-${i}`} className="min-h-24 p-1">
+                  <div className="empty-slot h-full">
+                    <span>+</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-
-        {/* Week 2 */}
-        <div className="mb-8">
-          <h3 className="text-xl font-medium mb-4 text-white">Week 2</h3>
-          <div className="grid grid-cols-[2rem_repeat(7,1fr)] gap-2">
-            {/* Day Headers */}
-            <div></div> {/* Empty cell for alignment */}
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Monday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Tuesday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Wednesday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Thursday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Friday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Saturday</div>
-            <div className="font-semibold text-sm p-2 bg-neutral-50 rounded-notion text-center">Sunday</div>
-
-            {/* Breakfast Row */}
-            <div className="meal-type-label text-white">Breakfast</div>
-            {[...Array(7)].map((_, i) => (
-              <div key={`breakfast-${i}`} className="min-h-24 p-1">
-                <div className="empty-slot h-full">
-                  <span>+</span>
-                </div>
-              </div>
-            ))}
-
-            {/* Lunch Row */}
-            <div className="meal-type-label text-white">Lunch</div>
-            {[...Array(7)].map((_, i) => (
-              <div key={`lunch-${i}`} className="min-h-24 p-1">
-                <div className="empty-slot h-full">
-                  <span>+</span>
-                </div>
-              </div>
-            ))}
-
-            {/* Dinner Row */}
-            <div className="meal-type-label text-white">Dinner</div>
-            {[...Array(7)].map((_, i) => (
-              <div key={`dinner-${i}`} className="min-h-24 p-1">
-                <div className="empty-slot h-full">
-                  <span>+</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Recipe Modal */}
-      {showRecipeModal && (
+      {showRecipeModal && selectedRecipe && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowRecipeModal(false)}>
           <div className="bg-white rounded-notion shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center p-4 border-b border-neutral-200">
-              <h2 className="text-xl font-bold">Baked Salmon with Roasted Vegetables</h2>
+              <h2 className="text-xl font-bold">{selectedRecipe.name}</h2>
               <button className="text-2xl text-neutral-500 hover:text-neutral-800" onClick={() => setShowRecipeModal(false)}>×</button>
             </div>
             <div className="p-6">
-              <div className="h-48 bg-neutral-100 rounded-notion flex items-center justify-center text-5xl mb-4">
-                🐟
+              {selectedRecipe.image_url && (
+                <div className="h-48 bg-neutral-100 rounded-notion flex items-center justify-center mb-4 overflow-hidden">
+                  <img 
+                    src={selectedRecipe.image_url} 
+                    alt={selectedRecipe.name} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // If image fails to load, show a food emoji instead
+                      const target = e.target as HTMLElement;
+                      target.outerHTML = `<div class="w-full h-full flex items-center justify-center text-6xl">${getFoodEmoji(selectedRecipe.name)}</div>`;
+                    }}
+                  />
+                </div>
+              )}
+              
+              <p className="text-neutral-700 mb-4">{selectedRecipe.description}</p>
+              
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="text-xs py-1 px-2 bg-neutral-100 text-neutral-800 rounded-notion">
+                  Prep: {selectedRecipe.preparation_time} min
+                </span>
+                <span className="text-xs py-1 px-2 bg-neutral-100 text-neutral-800 rounded-notion">
+                  Cook: {selectedRecipe.cooking_time} min
+                </span>
+                <span className="text-xs py-1 px-2 bg-neutral-100 text-neutral-800 rounded-notion">
+                  Servings: {selectedRecipe.servings}
+                </span>
               </div>
-              <p className="text-neutral-600 mb-4">A heart-healthy dinner with omega-3 rich salmon and a colorful mix of roasted vegetables.</p>
-              <div className="flex gap-4 mb-6">
-                <div className="bg-mintGreen-50 text-mintGreen-800 px-3 py-1 rounded-full text-sm">Prep: 15 min</div>
-                <div className="bg-royalBlue-50 text-royalBlue-800 px-3 py-1 rounded-full text-sm">Cook: 25 min</div>
-                <div className="bg-neutral-100 text-neutral-800 px-3 py-1 rounded-full text-sm">Serves: 2</div>
+              
+              <div className="mb-4">
+                <h3 className="font-bold text-lg mb-2">Ingredients</h3>
+                <div className="whitespace-pre-line">{selectedRecipe.ingredients}</div>
               </div>
-              <div className="mb-6">
-                <h3 className="font-semibold mb-2">Ingredients</h3>
-                <ul className="list-disc pl-5 space-y-1 text-neutral-700">
-                  <li>2 salmon fillets (6 oz each)</li>
-                  <li>1 zucchini, sliced</li>
-                  <li>1 bell pepper, chopped</li>
-                  <li>1 cup cherry tomatoes</li>
-                  <li>1 red onion, sliced</li>
-                  <li>2 tbsp olive oil</li>
-                  <li>2 cloves garlic, minced</li>
-                  <li>1 lemon</li>
-                  <li>Fresh dill</li>
-                  <li>Salt and pepper to taste</li>
-                </ul>
-              </div>
+              
               <div>
-                <h3 className="font-semibold mb-2">Instructions</h3>
-                <ol className="list-decimal pl-5 space-y-2 text-neutral-700">
-                  <li>Preheat oven to 400°F (200°C).</li>
-                  <li>Toss vegetables with 1 tbsp olive oil, garlic, salt, and pepper.</li>
-                  <li>Spread vegetables on a baking sheet and roast for 10 minutes.</li>
-                  <li>Place salmon fillets on top of vegetables, drizzle with remaining olive oil.</li>
-                  <li>Squeeze half the lemon over salmon and vegetables.</li>
-                  <li>Sprinkle with fresh dill, salt, and pepper.</li>
-                  <li>Return to oven and bake for 12-15 minutes until salmon is cooked through.</li>
-                  <li>Serve with lemon wedges.</li>
-                </ol>
+                <h3 className="font-bold text-lg mb-2">Instructions</h3>
+                <div className="whitespace-pre-line">{selectedRecipe.instructions}</div>
               </div>
             </div>
           </div>
