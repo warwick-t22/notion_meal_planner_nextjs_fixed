@@ -44,33 +44,19 @@ const CalendarView: React.FC<CalendarViewProps> = () => {
 
   // Fetch recipes when component mounts
   useEffect(() => {
-    async function loadRecipes() {
-      setLoading(true);
-      try {
-        // Option 1: Get all recipes and filter by meal type
-        const allRecipes = await getAllRecipes();
-        
-        // Option 2: Get recipes by meal type (if you added meal_type column)
-        // const breakfastData = await getRecipesByMealType('breakfast');
-        // const lunchData = await getRecipesByMealType('lunch');
-        // const dinnerData = await getRecipesByMealType('dinner');
-        
-        // For now, let's just split the recipes randomly for demonstration
-        const shuffled = [...allRecipes].sort(() => 0.5 - Math.random());
-        
-        setBreakfastRecipes(shuffled.slice(0, 7));
-        setLunchRecipes(shuffled.slice(7, 14));
-        setDinnerRecipes(shuffled.slice(14, 21));
-        
-        setLoading(false);
-      } catch (error) {
-        console.error('Error loading recipes:', error);
-        setLoading(false);
-      }
+  async function loadRecipes() {
+    setLoading(true);
+    try {
+      // Option 1: Get all recipes and filter by meal type
+      const allRecipes = await getAllRecipes();
+      // ...rest of your code
     }
-    
-    loadRecipes();
-  }, []);
+    // ...
+  }
+  
+  loadRecipes();
+}, []);
+
 
   // Function to open recipe modal with selected recipe
   const openRecipeModal = (recipe: Recipe) => {
