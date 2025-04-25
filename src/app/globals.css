@@ -4,182 +4,145 @@
 @tailwind utilities;
 
 :root {
-  /* Light mode variables */
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 248, 250, 252;
-  --background-end-rgb: 241, 245, 249;
-  
-  /* Original demo colors - light mode */
-  --notion-blue-dark: 30, 58, 138;
-  --notion-blue-medium: 59, 130, 246;
-  --notion-blue-light: 191, 219, 254;
-  --notion-mint-dark: 5, 150, 105;
-  --notion-mint-medium: 16, 185, 129;
-  --notion-mint-light: 167, 243, 208;
+  /* Light mode variables - Notion-inspired */
+  --foreground-rgb: 55, 53, 47;
+  --background-rgb: 255, 255, 255;
+  --sidebar-bg: 251, 251, 250;
+  --sidebar-border: 233, 233, 231;
+  --header-bg: 255, 255, 255;
+  --card-bg: 255, 255, 255;
+  --card-border: 233, 233, 231;
+  --day-header-bg: 247, 246, 243;
+  --empty-slot-border: 233, 233, 231;
+  --empty-slot-text: 175, 174, 171;
+  --mint-accent: 68, 131, 97;
+  --blue-accent: 51, 126, 169;
+  --button-text: 255, 255, 255;
 }
 
-/* Dark mode variables */
+/* Dark mode variables - Notion-inspired */
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 25, 25, 25;
+  --sidebar-bg: 32, 32, 32;
+  --sidebar-border: 44, 44, 44;
+  --header-bg: 32, 32, 32;
+  --card-bg: 37, 37, 37;
+  --card-border: 44, 44, 44;
+  --day-header-bg: 37, 37, 37;
+  --empty-slot-border: 44, 44, 44;
+  --empty-slot-text: 155, 155, 155;
+  --mint-accent: 68, 131, 97;
+  --blue-accent: 51, 126, 169;
+  --button-text: 255, 255, 255;
+}
+
+/* Apply dark mode when system preference is dark */
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 15, 23, 42;
-    --background-end-rgb: 30, 41, 59;
-    
-    /* Dark mode colors */
-    --notion-blue-dark: 30, 58, 138;
-    --notion-blue-medium: 59, 130, 246;
-    --notion-blue-light: 191, 219, 254;
-    --notion-mint-dark: 5, 150, 105;
-    --notion-mint-medium: 16, 185, 129;
-    --notion-mint-light: 167, 243, 208;
+    --background-rgb: 25, 25, 25;
+    --sidebar-bg: 32, 32, 32;
+    --sidebar-border: 44, 44, 44;
+    --header-bg: 32, 32, 32;
+    --card-bg: 37, 37, 37;
+    --card-border: 44, 44, 44;
+    --day-header-bg: 37, 37, 37;
+    --empty-slot-border: 44, 44, 44;
+    --empty-slot-text: 155, 155, 155;
+    --mint-accent: 68, 131, 97;
+    --blue-accent: 51, 126, 169;
+    --button-text: 255, 255, 255;
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-    to bottom right,
-    rgb(var(--background-start-rgb)),
-    rgb(var(--background-end-rgb))
-  );
+  background: rgb(var(--background-rgb));
   min-height: 100vh;
 }
 
 /* Layout styles */
 .min-h-screen {
-  background: linear-gradient(
-    to bottom right,
-    rgb(var(--background-start-rgb)),
-    rgb(var(--background-end-rgb))
-  );
+  background: rgb(var(--background-rgb));
   color: rgb(var(--foreground-rgb));
 }
 
 /* Header styles */
 header {
-  background-color: rgb(var(--notion-blue-dark));
-  color: white;
+  background-color: rgb(var(--header-bg));
+  color: rgb(var(--foreground-rgb));
+  border-bottom: 1px solid rgb(var(--sidebar-border));
 }
 
 header nav a {
-  color: white;
+  color: rgb(var(--foreground-rgb));
   transition: color 0.2s ease;
 }
 
 header nav a:hover {
-  color: rgb(var(--notion-mint-light));
+  color: rgb(var(--mint-accent));
 }
 
-/* Sidebar styles - Light Mode */
+/* Sidebar styles */
 aside {
-  background-color: rgb(var(--background-start-rgb));
-  border-right: 1px solid #e2e8f0;
+  background-color: rgb(var(--sidebar-bg));
+  border-right: 1px solid rgb(var(--sidebar-border));
   color: rgb(var(--foreground-rgb));
 }
 
-/* Dark mode overrides */
-@media (prefers-color-scheme: dark) {
-  aside {
-    background-color: rgb(30, 41, 59);
-    border-right: 1px solid rgb(51, 65, 85);
-  }
-  
-  .sidebar-text {
-    color: rgb(226, 232, 240);
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    color: rgb(248, 250, 252);
-  }
-  
-  p {
-    color: rgb(226, 232, 240);
-  }
-  
-  .meal-type-label {
-    color: rgb(248, 250, 252);
-  }
-  
-  .week-header {
-    color: rgb(248, 250, 252);
-  }
-  
-  .day-header {
-    background-color: rgb(51, 65, 85);
-    color: rgb(248, 250, 252);
-  }
-  
-  .empty-slot {
-    border: 1px dashed rgb(100, 116, 139);
-    color: rgb(148, 163, 184);
-  }
-  
-  .empty-slot:hover {
-    border-color: rgb(148, 163, 184);
-    color: rgb(226, 232, 240);
-  }
-  
-  select {
-    background-color: rgb(51, 65, 85);
-    color: rgb(248, 250, 252);
-    border: 1px solid rgb(71, 85, 105);
-  }
-  
-  .font-semibold.text-sm.p-2.bg-neutral-50.rounded-notion.text-center {
-    background-color: rgb(51, 65, 85);
-    color: rgb(248, 250, 252);
-  }
-  
-  .text-xl.font-medium.mb-4 {
-    color: rgb(248, 250, 252);
-  }
+.sidebar-text {
+  color: rgb(var(--foreground-rgb));
 }
 
-/* Light mode specific styles */
-@media (prefers-color-scheme: light) {
-  .sidebar-text {
-    color: rgb(30, 41, 59);
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    color: rgb(30, 41, 59);
-  }
-  
-  p {
-    color: rgb(71, 85, 105);
-  }
-  
-  .meal-type-label {
-    color: rgb(30, 41, 59);
-  }
-  
-  .week-header {
-    color: rgb(30, 41, 59);
-  }
-  
-  .day-header {
-    background-color: rgb(241, 245, 249);
-    color: rgb(30, 41, 59);
-  }
-  
-  .font-semibold.text-sm.p-2.bg-neutral-50.rounded-notion.text-center {
-    background-color: rgb(241, 245, 249);
-    color: rgb(30, 41, 59);
-  }
-  
-  .text-xl.font-medium.mb-4 {
-    color: rgb(30, 41, 59);
-  }
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: rgb(var(--foreground-rgb));
 }
 
-/* Recipe cards - work in both modes */
+/* Main content area */
+main {
+  background-color: rgb(var(--background-rgb));
+}
+
+/* Calendar view */
+.calendar-view h2 {
+  color: rgb(var(--foreground-rgb));
+}
+
+.calendar-view p {
+  color: rgb(var(--foreground-rgb));
+  opacity: 0.8;
+}
+
+/* Week headers */
+.week-header {
+  color: rgb(var(--foreground-rgb));
+  font-weight: 600;
+}
+
+/* Day headers */
+.day-header {
+  background-color: rgb(var(--day-header-bg));
+  color: rgb(var(--foreground-rgb));
+  font-weight: 500;
+}
+
+/* Meal type labels */
+.meal-type-label {
+  color: rgb(var(--foreground-rgb));
+  font-weight: 500;
+}
+
+/* Recipe cards */
 .recipe-card {
-  background-color: white;
+  background-color: rgb(var(--card-bg));
   border-radius: 0.375rem;
   padding: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.2s ease;
+  border: 1px solid rgb(var(--card-border));
 }
 
 .recipe-card:hover {
@@ -188,34 +151,36 @@ aside {
 }
 
 .recipe-card h4 {
-  color: rgb(30, 41, 59);
+  color: rgb(var(--foreground-rgb));
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
 
 .recipe-card.primary {
-  border-left: 3px solid rgb(16, 185, 129);
+  border-left: 3px solid rgb(var(--mint-accent));
 }
 
 .recipe-card.secondary {
-  border-left: 3px solid rgb(99, 102, 241);
+  border-left: 3px solid rgb(var(--blue-accent));
 }
 
 /* Empty slots */
 .empty-slot {
-  border: 1px dashed rgb(203, 213, 225);
+  border: 1px dashed rgb(var(--empty-slot-border));
   border-radius: 0.375rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgb(148, 163, 184);
+  color: rgb(var(--empty-slot-text));
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .empty-slot:hover {
-  border-color: rgb(100, 116, 139);
-  color: rgb(71, 85, 105);
+  border-color: rgb(var(--foreground-rgb));
+  opacity: 0.7;
+  color: rgb(var(--foreground-rgb));
+  opacity: 0.7;
 }
 
 /* Notion-inspired rounded corners */
@@ -229,106 +194,82 @@ button {
 }
 
 .bg-mintGreen-400 {
-  background-color: rgb(16, 185, 129);
+  background-color: rgb(var(--mint-accent));
 }
 
 .bg-mintGreen-500 {
-  background-color: rgb(5, 150, 105);
-}
-
-.bg-mintGreen-600 {
-  background-color: rgb(5, 150, 105);
+  background-color: rgb(var(--mint-accent));
+  opacity: 0.9;
 }
 
 .bg-royalBlue-400 {
-  background-color: rgb(59, 130, 246);
+  background-color: rgb(var(--blue-accent));
 }
 
 .bg-royalBlue-500 {
-  background-color: rgb(37, 99, 235);
-}
-
-.bg-royalBlue-600 {
-  background-color: rgb(37, 99, 235);
-}
-
-.bg-royalBlue-700 {
-  background-color: rgb(29, 78, 216);
+  background-color: rgb(var(--blue-accent));
+  opacity: 0.9;
 }
 
 .bg-royalBlue-800 {
-  background-color: rgb(30, 64, 175);
+  background-color: rgb(var(--blue-accent));
 }
 
-.bg-royalBlue-900 {
-  background-color: rgb(30, 58, 138);
+/* Text on buttons */
+.bg-mintGreen-400, .bg-mintGreen-500, .bg-royalBlue-400, .bg-royalBlue-500, .bg-royalBlue-800 {
+  color: rgb(var(--button-text));
 }
 
 /* Form controls */
 input[type="checkbox"] {
-  accent-color: rgb(16, 185, 129);
+  accent-color: rgb(var(--mint-accent));
 }
 
 input[type="range"] {
-  accent-color: rgb(16, 185, 129);
+  accent-color: rgb(var(--mint-accent));
 }
 
 select {
-  background-color: white;
-  color: rgb(30, 41, 59);
-  border: 1px solid rgb(226, 232, 240);
+  background-color: rgb(var(--card-bg));
+  color: rgb(var(--foreground-rgb));
+  border: 1px solid rgb(var(--card-border));
   border-radius: 0.375rem;
   padding: 0.5rem;
 }
 
 /* Fix specific text colors */
 .text-white {
-  color: white;
+  color: rgb(var(--button-text));
 }
 
-.text-neutral-200 {
-  color: rgb(226, 232, 240);
+/* Fix for day headers */
+.font-semibold.text-sm.p-2.bg-neutral-50.rounded-notion.text-center {
+  background-color: rgb(var(--day-header-bg));
+  color: rgb(var(--foreground-rgb));
 }
 
-.text-neutral-300 {
-  color: rgb(203, 213, 225);
+/* Fix for week headers */
+.text-xl.font-medium.mb-4.text-white {
+  color: rgb(var(--foreground-rgb));
 }
 
-.text-neutral-600 {
-  color: rgb(71, 85, 105);
+/* Theme toggle button */
+.theme-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--foreground-rgb));
 }
 
-.text-neutral-700 {
-  color: rgb(51, 65, 85);
+.theme-toggle:hover {
+  color: rgb(var(--mint-accent));
 }
 
-.text-neutral-800 {
-  color: rgb(30, 41, 59);
-}
-
-/* Background fixes */
-.bg-gradient-to-br {
-  background: linear-gradient(
-    to bottom right,
-    rgb(var(--background-start-rgb)),
-    rgb(var(--background-end-rgb))
-  );
-}
-
-.from-royalBlue-900 {
-  --tw-gradient-from: rgb(var(--background-start-rgb));
-}
-
-.to-royalBlue-800 {
-  --tw-gradient-to: rgb(var(--background-end-rgb));
-}
-
-/* Override any problematic styles */
-.min-h-screen.bg-gradient-to-br.from-royalBlue-900.to-royalBlue-800 {
-  background: linear-gradient(
-    to bottom right,
-    rgb(var(--background-start-rgb)),
-    rgb(var(--background-end-rgb))
-  );
+/* Ensure text in the calendar is readable */
+.text-neutral-200, .text-neutral-300, .text-neutral-600, .text-neutral-700, .text-neutral-800 {
   color: rgb(var(--foreground-rgb));
 }
