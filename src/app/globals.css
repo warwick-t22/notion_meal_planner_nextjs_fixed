@@ -1,181 +1,334 @@
+/* Base styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'Inter', sans-serif;
+:root {
+  /* Light mode variables */
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 241, 245, 249;
+  
+  /* Original demo colors - light mode */
+  --notion-blue-dark: 30, 58, 138;
+  --notion-blue-medium: 59, 130, 246;
+  --notion-blue-light: 191, 219, 254;
+  --notion-mint-dark: 5, 150, 105;
+  --notion-mint-medium: 16, 185, 129;
+  --notion-mint-light: 167, 243, 208;
 }
 
-@layer base {
+/* Dark mode variables */
+@media (prefers-color-scheme: dark) {
   :root {
-    --radius: 0.5rem;
-    /* Sidebar variables */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 146 54% 48%; /* Mint green */
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 146 54% 48%; /* Mint green */
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 15, 23, 42;
+    --background-end-rgb: 30, 41, 59;
     
-    /* Main variables */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 146 54% 48%; /* Mint green #38bc74 */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 222 77% 48%; /* Royal blue #1a56db */
-    --secondary-foreground: 210 40% 98%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 222 77% 48%; /* Royal blue */
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 146 54% 48%; /* Mint green */
-    
-    /* Chart colors */
-    --chart-1: 146 54% 48%; /* Mint green */
-    --chart-2: 222 77% 48%; /* Royal blue */
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    /* Dark mode colors */
+    --notion-blue-dark: 30, 58, 138;
+    --notion-blue-medium: 59, 130, 246;
+    --notion-blue-light: 191, 219, 254;
+    --notion-mint-dark: 5, 150, 105;
+    --notion-mint-medium: 16, 185, 129;
+    --notion-mint-light: 167, 243, 208;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom right,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  min-height: 100vh;
+}
+
+/* Layout styles */
+.min-h-screen {
+  background: linear-gradient(
+    to bottom right,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  color: rgb(var(--foreground-rgb));
+}
+
+/* Header styles */
+header {
+  background-color: rgb(var(--notion-blue-dark));
+  color: white;
+}
+
+header nav a {
+  color: white;
+  transition: color 0.2s ease;
+}
+
+header nav a:hover {
+  color: rgb(var(--notion-mint-light));
+}
+
+/* Sidebar styles - Light Mode */
+aside {
+  background-color: rgb(var(--background-start-rgb));
+  border-right: 1px solid #e2e8f0;
+  color: rgb(var(--foreground-rgb));
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  aside {
+    background-color: rgb(30, 41, 59);
+    border-right: 1px solid rgb(51, 65, 85);
   }
   
-  .dark {
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 146 54% 48%; /* Mint green */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 146 54% 48%; /* Mint green */
-    
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 146 54% 48%; /* Mint green */
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 222 77% 48%; /* Royal blue */
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 222 77% 48%; /* Royal blue */
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 146 54% 48%; /* Mint green */
-    
-    --chart-1: 146 54% 48%; /* Mint green */
-    --chart-2: 222 77% 48%; /* Royal blue */
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+  .sidebar-text {
+    color: rgb(226, 232, 240);
   }
-}
-
-@layer base {
-  * {
-    @apply border-border;
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: rgb(248, 250, 252);
   }
-  body {
-    @apply bg-background text-foreground;
+  
+  p {
+    color: rgb(226, 232, 240);
   }
-}
-
-/* Custom styles for meal planner */
-@layer components {
+  
   .meal-type-label {
-    @apply writing-vertical-lr transform rotate-180 flex items-center justify-center text-sm font-semibold text-neutral-600 py-2;
+    color: rgb(248, 250, 252);
   }
   
-  .recipe-card {
-    @apply bg-white rounded-notion shadow-sm h-full p-2 cursor-pointer transition-shadow duration-200 hover:shadow-md;
+  .week-header {
+    color: rgb(248, 250, 252);
   }
   
-  .recipe-card.primary {
-    @apply border-l-4 border-mintGreen-400;
-  }
-  
-  .recipe-card.secondary {
-    @apply border-l-4 border-royalBlue-400;
+  .day-header {
+    background-color: rgb(51, 65, 85);
+    color: rgb(248, 250, 252);
   }
   
   .empty-slot {
-    @apply h-full border border-dashed border-neutral-300 rounded-notion flex items-center justify-center text-neutral-400 text-2xl cursor-pointer hover:bg-neutral-50;
+    border: 1px dashed rgb(100, 116, 139);
+    color: rgb(148, 163, 184);
+  }
+  
+  .empty-slot:hover {
+    border-color: rgb(148, 163, 184);
+    color: rgb(226, 232, 240);
+  }
+  
+  select {
+    background-color: rgb(51, 65, 85);
+    color: rgb(248, 250, 252);
+    border: 1px solid rgb(71, 85, 105);
+  }
+  
+  .font-semibold.text-sm.p-2.bg-neutral-50.rounded-notion.text-center {
+    background-color: rgb(51, 65, 85);
+    color: rgb(248, 250, 252);
+  }
+  
+  .text-xl.font-medium.mb-4 {
+    color: rgb(248, 250, 252);
   }
 }
 
-/* Utility for vertical text */
-.writing-vertical-lr {
-  writing-mode: vertical-lr;
+/* Light mode specific styles */
+@media (prefers-color-scheme: light) {
+  .sidebar-text {
+    color: rgb(30, 41, 59);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: rgb(30, 41, 59);
+  }
+  
+  p {
+    color: rgb(71, 85, 105);
+  }
+  
+  .meal-type-label {
+    color: rgb(30, 41, 59);
+  }
+  
+  .week-header {
+    color: rgb(30, 41, 59);
+  }
+  
+  .day-header {
+    background-color: rgb(241, 245, 249);
+    color: rgb(30, 41, 59);
+  }
+  
+  .font-semibold.text-sm.p-2.bg-neutral-50.rounded-notion.text-center {
+    background-color: rgb(241, 245, 249);
+    color: rgb(30, 41, 59);
+  }
+  
+  .text-xl.font-medium.mb-4 {
+    color: rgb(30, 41, 59);
+  }
 }
 
-/* Add these rules to your globals.css file */
-
-/* Improve general text readability */
-body {
-  color: #f8f9fa; /* Light color for text on dark backgrounds */
+/* Recipe cards - work in both modes */
+.recipe-card {
+  background-color: white;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Make headings more visible */
-h1, h2, h3, h4, h5, h6 {
+.recipe-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.recipe-card h4 {
+  color: rgb(30, 41, 59);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.recipe-card.primary {
+  border-left: 3px solid rgb(16, 185, 129);
+}
+
+.recipe-card.secondary {
+  border-left: 3px solid rgb(99, 102, 241);
+}
+
+/* Empty slots */
+.empty-slot {
+  border: 1px dashed rgb(203, 213, 225);
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(148, 163, 184);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.empty-slot:hover {
+  border-color: rgb(100, 116, 139);
+  color: rgb(71, 85, 105);
+}
+
+/* Notion-inspired rounded corners */
+.rounded-notion {
+  border-radius: 0.375rem;
+}
+
+/* Button styles */
+button {
+  transition: all 0.2s ease;
+}
+
+.bg-mintGreen-400 {
+  background-color: rgb(16, 185, 129);
+}
+
+.bg-mintGreen-500 {
+  background-color: rgb(5, 150, 105);
+}
+
+.bg-mintGreen-600 {
+  background-color: rgb(5, 150, 105);
+}
+
+.bg-royalBlue-400 {
+  background-color: rgb(59, 130, 246);
+}
+
+.bg-royalBlue-500 {
+  background-color: rgb(37, 99, 235);
+}
+
+.bg-royalBlue-600 {
+  background-color: rgb(37, 99, 235);
+}
+
+.bg-royalBlue-700 {
+  background-color: rgb(29, 78, 216);
+}
+
+.bg-royalBlue-800 {
+  background-color: rgb(30, 64, 175);
+}
+
+.bg-royalBlue-900 {
+  background-color: rgb(30, 58, 138);
+}
+
+/* Form controls */
+input[type="checkbox"] {
+  accent-color: rgb(16, 185, 129);
+}
+
+input[type="range"] {
+  accent-color: rgb(16, 185, 129);
+}
+
+select {
+  background-color: white;
+  color: rgb(30, 41, 59);
+  border: 1px solid rgb(226, 232, 240);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+}
+
+/* Fix specific text colors */
+.text-white {
   color: white;
 }
 
-/* Improve paragraph text contrast */
-p {
-  color: #e9ecef;
+.text-neutral-200 {
+  color: rgb(226, 232, 240);
 }
 
-/* Ensure sidebar text is readable */
-.sidebar-text {
-  color: #f8f9fa;
-}
-
-/* Make sure form labels are visible */
-label {
-  color: #f8f9fa;
-}
-
-/* Ensure calendar day headers are readable */
-.day-header {
-  color: white !important;
-}
-
-/* Fix any dark text on dark backgrounds */
-.text-neutral-800 {
-  color: #f8f9fa !important;
-}
-
-.text-neutral-700 {
-  color: #e9ecef !important;
+.text-neutral-300 {
+  color: rgb(203, 213, 225);
 }
 
 .text-neutral-600 {
-  color: #dee2e6 !important;
+  color: rgb(71, 85, 105);
 }
 
-/* Only use dark text on light backgrounds */
-.bg-white .text-neutral-800,
-.bg-mintGreen-50 .text-neutral-800,
-.bg-royalBlue-50 .text-neutral-800 {
-  color: #212529 !important;
+.text-neutral-700 {
+  color: rgb(51, 65, 85);
 }
 
-/* Fix specific components */
-.meal-type-label {
-  color: white;
+.text-neutral-800 {
+  color: rgb(30, 41, 59);
+}
+
+/* Background fixes */
+.bg-gradient-to-br {
+  background: linear-gradient(
+    to bottom right,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+.from-royalBlue-900 {
+  --tw-gradient-from: rgb(var(--background-start-rgb));
+}
+
+.to-royalBlue-800 {
+  --tw-gradient-to: rgb(var(--background-end-rgb));
+}
+
+/* Override any problematic styles */
+.min-h-screen.bg-gradient-to-br.from-royalBlue-900.to-royalBlue-800 {
+  background: linear-gradient(
+    to bottom right,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+  color: rgb(var(--foreground-rgb));
 }
